@@ -1,0 +1,49 @@
+import numpy as np
+import matplotlib.pyplot as pt
+import pandas as pd
+
+#Imoorting the dataset
+data = pd.read_csv("train.csv").as_matrix()
+x = data[:,1:]
+y = data[:,0]
+
+# Splitting the dataset into the Training set and Test set
+data1 = pd.read_csv("test.csv").as_matrix()
+x_test = data1[:,:]
+
+#Using SVM
+from sklearn.svm import SVC
+clf = SVC(kernel ='poly',random_state = 0)
+clf.fit(x,y)
+svm_pred = clf.predict(x_test)
+for i in range(28000):
+    print(i+1,svm_pred[i])
+ 
+#Using Decision Tree 
+#Decision Tree gives mores accuracy compared to Random Forest in this particular case
+from sklearn.tree import DecisionTreeClassifier
+clf = DecisionTreeClassifier()
+clf.fit(x,y)
+decn_pred = clf.predict(x_test)
+for i in range(28000):
+    print(i+1,decn_pred[i])
+
+
+#Using Random Forest
+from sklearn.ensemble import RandomForestRegressor
+clf = RandomForestRegressor(n_estimators = 20,random_state = 0)
+clf.fit(x,y)
+rndm_pred = clf.predict(x_test)
+rndm_pred = [round(x) for x in rndm_pred]
+for i in range(28000):
+    print(i+1,rndm_pred[i])
+
+#Using Naive Bayes
+from sklearn.naive_bayes import GaussianNB
+clf = GaussianNB()
+clf.fit(x,y)
+naby_pred = clf.predict(x_test)
+for i in range(28000):
+    print(i+1,naby_pred[i])
+    
+#SVM will give highest accuracy
